@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="../static/style/formulario.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"> 
+</head>
+<body>
+    <main id="form_container">
+        <div id="form_header">
+            <h1 id="form_titulo">
+                Criar conta
+            </h1>
+            <button class="btn-padrao" onclick="window.location.href='/'">
+                <i class="fa-solid fa-right-to-bracket"></i>
+            </button>
+        </div>
+        
+        <form action="/create" id="form" method="POST">
+            <div id="input_container">
+                <div class="input-box">
+                    <label for="name" class="form-label">Nome</label>
+                    <div class="input-field">
+                        <input type="text" name="nome" id="name" class="form-control" placeholder="Ex.: João Silva" required> 
+                        <i class="fa-regular fa-user"></i>
+                    </div>
+                    <span class="error"></span>
+                </div>
+                
+
+                <div class="input-box">
+                    <label for="cpf" class="form-label">CPF ou CNPJ</label>
+                    <div class="input-field">
+                        <input type="text" name="cpf" id="cpf" class="form-control" placeholder="Ex.: 12345678901" required> 
+                        <i class="fa-regular fa-user"></i>
+                    </div>
+                    <span class="error"></span>
+                </div>
+                
+
+                <div class="input-box">
+                    <label for="aniversario" class="form-label">Nascimento</label>
+                    <div class="input-field">
+                        <input type="date" name="aniversario" id="aniversario" class="form-control" required> 
+                    </div>
+                    <span class="error"></span>
+                </div>
+                
+
+                <div class="input-box">
+                    <label for="email" class="form-label">Email</label>
+                    <div class="input-field">
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Ex.: JoaoSilva@email.com" required> 
+                        <i class="fa-regular fa-envelope"></i>
+                    </div>
+                    <span class="error"></span>
+                </div>
+                
+
+                <div class="input-box">
+                    <label for="senha" class="form-label">Senha</label>
+                    <div class="input-field">
+                        <input type="password" name="senha" id="senha" class="form-control" placeholder="*********" required> 
+                        <i class="fa-regular fa-eye-slash password-icone"></i>
+                    </div>
+                    <span class="error"></span>
+                </div>
+                
+
+                <div class="input-box">
+                    <label for="confirm_senha" class="form-label">Confirmar senha</label>
+                    <div class="input-field">
+                        <input type="password" name="confirm_senha" id="confirm_senha" class="form-control" placeholder="*********"> 
+                        <i class="fa-regular fa-eye-slash password-icone"></i>
+                    </div>
+                    <span class="error"></span>
+                </div>
+            </div>
+            <button type="submit" class="btn-padrao">
+                <i class="fa-solid fa-check"></i>
+                Criar conta
+            </button>
+        </form>
+    </main>
+    <script src="../static/javascript/formulario.js"></script>
+</body>
+</html>

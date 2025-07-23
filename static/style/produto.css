@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap');
+
+*{
+    margin: 0px;
+    box-sizing: border-box;
+    padding: 0px;
+}
+
+body{
+    background-color: #2b3652;
+    color: #ffff;
+}
+
+html{
+    font-family: 'DM Serif Display', Serif;
+    font-weight: 500;
+}
+
+
+.produto{
+    display: flex;
+    margin-top: 110px;
+    align-items: center;
+    justify-content: center;
+}
+
+.container{
+    display: flex;
+    width: 1250px;
+    height: 800px;
+    margin-top: 100px;
+    overflow: hidden;
+    gap: 20px;
+}
+
+.descricao{
+    display: flex;
+    flex-direction: column;
+    gap: 15px 0px;
+}
+
+.imagem img{
+    width: 400px;
+    border-radius: 10px;
+}
+
+.amarelo{
+    color: rgb(255, 215, 0);
+}

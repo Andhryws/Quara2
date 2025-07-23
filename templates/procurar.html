@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quara</title>
+    <meta name="description" content="Aqui, sua doação encontra destinocerto: chega a quem precisa e faz a diferença, peça por peça, gesto por gesto.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/style/navbar.css">
+    <link rel="stylesheet" href="../static/style/procurar.css">
+</head>
+<body>
+    <header>
+        <nav>
+         <span style="color: #b0b0b0;" class="logo">Quara</span>
+            <ul class="ul_nav">
+              <li class="li_nav"><a>Sobre nós</a></li>
+             <li class="li_nav" ><a href="{{ url_for('formulario') }}">Cadastro</a></li>
+             <li class="li_nav"><a href="{{ url_for('login') }}">Login</a></li>
+                <li class="li_nav"><a>Doações</a></li>
+                <li class="li_nav"><a>Como ajudar?</a></li>
+            </ul>
+            <a href="{{ url_for('logout') }}">
+            <button type="button" class="btn btn-danger">Voltar</button>
+            </a>
+        </nav>
+    </header>
+    <br><br><br><br><br>
+
+    <main>
+        <section class="search">
+            <div id="search-container">
+                <div class="input-grupo">
+                    <div class="input-icone">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <input type="text" id="search" class="input-field" placeholder="pesquisar">
+                </div>
+            </div>
+
+            <!--Lista de roupas-->
+            
+            <div class="items-container">
+                <h2>Recentes</h2>
+                <ul class="items">
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exemplo1.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title item-titulo">Calça Jeans</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="{{ url_for('produto') }}" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exemplo2.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title item-titulo">Casaco</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exemplo3.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title item-titulo">Blusa feminina</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exemplo4.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title item-titulo">Tenis</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/calca/calca-1.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title item-titulo">Calça boca de sino</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exp-6.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title item-titulo">Calça jeans</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/sapatos/sapato-1.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title item-titulo">Sapato social</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/sapatos/sapato-femino-1.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title item-titulo">Sapatilha</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="no_results">
+                        <p>Nenhum resultado encontrado</p>
+                    </li>
+                </ul>
+            </div>
+
+            <!--Lista de calças-->
+            <div class="items-container">
+                <h2>Calças</h2>
+                <ul class="items">
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/calca/calca-1.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Calça Jeans</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exemplo2.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Casaco</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exemplo3.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Blusa feminina</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exemplo4.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Tenis</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exp-5.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Calça boca de sino</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exp-6.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Calça jeans</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exp-7.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Sapato social</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exp-8.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Sapatilha</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="no_results">
+                        <p>Nenhum resultado encontrado</p>
+                    </li>
+                </ul>
+            </div>
+
+            <!--Lista de tenis-->
+            <div class="items-container">
+                <h2>Tênis</h2>
+                <ul class="items">
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/sapatos/sapato-1.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Sapato Social</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exemplo2.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Casaco</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exemplo3.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Blusa feminina</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exemplo4.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Tenis</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exp-5.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Calça boca de sino</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exp-6.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Calça jeans</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/img-exp-7.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Sapato social</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="../images/sapato-femino-1.jpg" alt="Imagem de capa do card" style="width: 100%; height: 350px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Sapatilha</h5>
+                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                                <a href="#" class="btn btn-primary">Visitar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="no_results">
+                        <p>Nenhum resultado encontrado</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </main>
+    <footer>
+         <p class="footer-copy azul-escuro">Copyrigth Quara 2025</p>
+        <p class="footer-autor azul-escuro">Site feito originalmente por: </p>
+        <p class="footer-autor azul-escuro">Andhyrws Gabriel, Gisela Araújo, Jonatas Camilo, Miguel Cristiano e Berdine Nogueira.</p>
+    </footer>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="../static/javascript/procurar.js"></script>
+</body>
+</html>

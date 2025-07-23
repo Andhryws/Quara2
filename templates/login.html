@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="../static/style/formulario.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"> 
+</head>
+<body>
+    <main id="form_container">
+        <div id="form_header">
+            <h1 id="form_titulo">
+                Bem-vindo de volta!
+            </h1>
+            <button class="btn-padrao" onclick="window.location.href='/'">
+                <i class="fa-solid fa-right-to-bracket"></i>
+
+            </button>
+        </div>
+        
+        <form action="/login" method="POST" id="form">
+            <div id="input_container">
+                
+                
+
+                <div class="input-box">
+                    <label for="email" class="form-label">Email</label>
+                    <div class="input-field">
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Ex.: JoaoSilva@email.com"> 
+                        <i class="fa-regular fa-envelope"></i>
+                    </div>
+                    <span class="error"></span>
+                </div>
+                
+
+                <div class="input-box">
+                    <label for="senha" class="form-label">Senha</label>
+                    <div class="input-field">
+                        <input type="password" name="senha" id="senha" class="form-control" placeholder="*********"> 
+                        <i class="fa-regular fa-eye-slash password-icone"></i>
+                    </div>
+                    <span class="error"></span>
+                </div>
+                
+            </div>
+            <button type="submit" class="btn-padrao">
+                <i class="fa-solid fa-check"></i>
+                Entrar
+            </button>
+        </form>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for msg in messages %}
+        <li>{{ msg }}</li>
+             {% endfor %}
+        </ul>
+          {% endif %}
+        {% endwith %}
+    </main>
+    <script src="../static/javascript/login.js"></script>
+</body>
+</html>

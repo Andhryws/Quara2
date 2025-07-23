@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap');
+
+*{
+    margin: 0px;
+    box-sizing: border-box;
+    padding: 0px;
+}
+
+body{
+    background-color: #f3e8d5;
+    min-height: 100vh;
+}
+
+html{
+    font-family: 'DM Serif Display', Serif;
+    font-weight: 500;
+}
+
+a{
+    text-decoration: none;
+}
+
+section{
+    gap: 0rem; /*gap 1.5rem*/
+    display: flex;
+}
+
+main{
+    padding: 0rem 0rem; /* Antes estava a 12rem */
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    
+}
+
+p{
+    color: #b0b0b0;
+}
+
+.search{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+}
+
+.items-container{
+    display: flex;
+    width: 100%;
+    margin-top: 50px;
+    flex-direction: column;
+}
+
+.item-image img{
+    width: 200px;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.items{
+    display: flex;
+    gap: 16px;
+    padding: 14px;
+    list-style: none;
+    margin-top: 12px;
+    background-color: #ffffff;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.input-grupo{
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding:  8px 16px 8px 8px;
+    border-radius: 24px;
+    gap: 8px;
+    margin-top: 100px;
+}
+
+.input-icone{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    min-width: 32px;
+    min-height: 32px;
+    background-color: #604646ff;
+    color: #ffffff;
+}
+
+.input-field{
+    width: 100%;
+    border: none;
+    background-color: transparent;
+}
+
+.input-field:focus{
+    outline: none;
+}
+
+.item-titulo{
+    font-size: 25px;
+    color: #333;
+}
+
+.item-subtitulo{
+    font-size: 18px;
+    color: #667
+}
+
+.item-desc{
+    font-size: 14px;
+    color: #444;
+}
+
+#no_results{
+    display: none;
+    text-align: center;
+}
+
+footer{
+    margin-top: 100px;
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5;
+    background-color: #e2d6c1;
+}
+
+footer > p{
+    color: #2e3a59;
+}
