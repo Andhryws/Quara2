@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Minha Conta</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/style/usuario.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/style/style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Olá, {{ usuario.nome }}</h1>
+
+        <form id="editar-form" action="{{ url_for('update_usuario', usuario_id=session['usuario_id']) }}" method="POST">
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" id="nome" value="{{ usuario.nome }}" required>
+
+            <label for="cpf">CPF:</label>
+            <input type="text" name="cpf" id="cpf" placeholder="***" required>
+
+            <label for="aniversario">Nascimento:</label>
+            <input type="date" name="aniversario" id="aniversario" required>
+
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" value="{{ usuario.email }}" required>
+
+            <label for="senha">Nova Senha:</label>
+            <input type="password" name="senha" id="senha" required>
+
+            <button type="submit">Atualizar</button>
+        </form>
+
+        <form id="deletar-form" action="{{ url_for('delete_usuario', usuario_id=session['usuario_id']) }}"
+            method="POST">
+            <button type="submit" class="excluir">Excluir Conta</button>
+        </form>
+
+        <a href="{{ url_for('procurar') }}">Sair</a>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/usuario.js') }}"></script>
+</body>
+
+</html>

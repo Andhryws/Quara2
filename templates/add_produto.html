@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Adicionar Produto</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/add_produto.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Adicionar Produto</h1>
+        <form method="POST" action="{{ url_for('create_produto') }}">
+            <label for="nome">Nome do Produto:</label>
+            <input type="text" id="nome" name="nome" placeholder="Digite aqui o nome do produto" required>
+
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" name="descricao" rows="4" placeholder="Digite aqui a descrição do produto"
+                required></textarea>
+
+            <label for="tamanho">Digite o tamanho do produto:</label>
+            <input type="text" id="tamanho" name="tamanho" placeholder="Digite aqui o tamanho do produto" required>
+
+            <label for="tipo">Digite o tipo do produto (Doação ou venda):</label>
+            <input type="text" id="tipo" name="tipo" placeholder="Digite o tipo do produto" required>
+
+            <label for="preco">Preço (R$):</label>
+            <input type="text" id="preco" name="preco" step="0.01" placeholder="Digite o preço do produto" required>
+
+            <label for="imagem">Imagem (URL ou nome do arquivo):</label>
+            <input type="text" id="imagem" name="imagem" placeholder="Digite a Url ou o nome aqui" required>
+
+            <label for="categoria">Digite a categoria do produto (calçados, camisas, etc):</label>
+            <input type="text" name="categoria" placeholder="Categoria" placeholder="Digite aqui a categoria do produto"
+                required>
+
+            <label for="contato">Digite uma opção para contato:</label>
+            <input type="text" name="contato" placeholder="Contato" placeholder="Digite aqui uma opção para contato"
+                required>
+
+            <button type="submit">Salvar Produto</button>
+        </form>
+    </div>
+</body>
+
+</html>

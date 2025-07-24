@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, session, url_for, f
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+import sqlite3
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
@@ -16,6 +17,20 @@ class Usuario(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     senha = db.Column(db.String(60), nullable=False)
 
+class Produto(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    descricao = db.Column(db.Text, nullable=False)
+    tamanho = db.Column(db.String(20), nullable=False)
+    tipo = db.Column(db.String(50), nullable=False)
+    preco = db.Column(db.Float, nullable=False)
+    imagem = db.Column(db.String(255))  # Pode ser nome do arquivo ou URL
+    categoria = db.Column(db.String(50), nullable=False)
+    Contato = db.Column(db.String(50), nullable=False)
+
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    usuario = db.relationship('Usuario', backref=db.backref('produtos', lazy=True))
+
 # Página inicial
 @app.route("/")
 def index():
@@ -26,6 +41,32 @@ def index():
 @app.route("/formulario")
 def formulario():
     return render_template("formulario.html")
+
+@app.route('/usuario')
+def usuario_pg():
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
+
+    id_usuario = session['usuario_id']
+    usuario = Usuario.query.get(id_usuario)
+
+    if not usuario:
+        return "Usuário não encontrado", 404
+
+    return render_template('usuario.html', usuario=usuario)
+
+@app.route('/add_produto')
+def add_produto():
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
+
+    id_usuario = session['usuario_id']
+    usuario = Usuario.query.get(id_usuario)
+
+    if not usuario:
+        return "Usuário não encontrado", 404
+
+    return render_template('add_produto.html', usuario=usuario)
 
 # Página de login - GET exibe o formulário; POST processa login
 @app.route("/login", methods=['GET', 'POST'])
@@ -45,16 +86,17 @@ def login():
     return render_template("login.html")
 
 # Página de produtos - protegida, só acessa se estiver logado
-@app.route("/produto")
-def produto():
-    if 'usuario_id' not in session:
-        return redirect(url_for('login'))
-    return render_template("produto.html", usuario_nome=session.get('usuario_nome'))
+
+@app.route('/produto/<int:produto_id>')
+def detalhes_produto(produto_id):
+    produto = Produto.query.get_or_404(produto_id)
+    return render_template('produto.html', produto=produto)
 
 # Página de busca
-@app.route("/procurar")
+@app.route('/procurar')
 def procurar():
-    return render_template("procurar.html")
+    produtos = Produto.query.all()
+    return render_template('procurar.html', produtos=produtos)
 
 # Cadastro de usuário (POST)
 @app.route("/create", methods=['POST'])
@@ -110,6 +152,37 @@ def update_usuario(usuario_id):
 def logout():
     session.clear()
     return redirect(url_for('index'))
+
+@app.route('/produtos/create', methods=['POST'])
+def create_produto():
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
+
+    nome = request.form['nome']
+    descricao = request.form['descricao']
+    tamanho = request.form['tamanho']
+    tipo = request.form['tipo']
+    preco = float(request.form['preco'])
+    imagem = request.form.get('imagem')  # Pode ser um campo opcional
+    categoria = request.form['categoria']
+    contato = request.form['contato']
+    usuario_id = session['usuario_id']
+
+    novo_produto = Produto(
+        nome=nome,
+        descricao=descricao,
+        tamanho=tamanho,
+        tipo=tipo,
+        preco=preco,
+        imagem=imagem,
+        categoria=categoria,
+        Contato=contato,
+        usuario_id=usuario_id
+    )
+    db.session.add(novo_produto)
+    db.session.commit()
+
+    return redirect(url_for('procurar'))
 
 if __name__ == "__main__":
     with app.app_context():

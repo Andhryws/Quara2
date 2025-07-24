@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/style/produto.css">
     <link rel="stylesheet" href="../static/style/style.css">
     <link rel="stylesheet" href="../static/style/navbar.css">
     <title>Document</title>
 </head>
+
 <body>
     <header>
         <nav>
-        <span style="color: #b0b0b0;" class="logo">Quara</span>
-        <ul class="ul_nav">
-            <li class="li_nav"><a>Sobre nós</a></li>
-            <li class="li_nav" ><a href="{{ url_for('formulario') }}">Cadastro</a></li>
-            <li class="li_nav"><a href="{{ url_for('login') }}">Login</a></li>
-            <li class="li_nav"><a>Doações</a></li>
-            <li class="li_nav"><a>Como ajudar?</a></li>
-        </ul>
-        <a href="{{ url_for('procurar') }}"><button type="button" class="btn btn-danger">Voltar</button></a>
+            <span style="color: #b0b0b0;" class="logo">Quara</span>
+            <ul class="ul_nav">
+                <li class="li_nav"><a>Sobre nós</a></li>
+                <li class="li_nav"><a href="{{ url_for('formulario') }}">Cadastro</a></li>
+                <li class="li_nav"><a href="{{ url_for('login') }}">Login</a></li>
+                <li class="li_nav"><a>Doações</a></li>
+                <li class="li_nav"><a>Como ajudar?</a></li>
+            </ul>
+            <a href="{{ url_for('procurar') }}"><button type="button" class="btn btn-danger">Voltar</button></a>
         </nav>
     </header>
 
@@ -32,29 +37,35 @@
                     <img src="../static/images/img-exemplo1.jpg" alt="Imagem de calça jeans">
                 </div>
                 <div class="descricao">
-                    <h1>Calça jeans azul claro</h1>
-                    <span class="amarelo" style="font-size: 25px;">Gratis!</span>
-                    <p>
-                        Lorem ipsum dolor sit amet. Qui voluptatem incidunt sit perspiciatis officiis hic harum explicabo ea inventore sunt ut dolorum ipsum. Id minima rerum et omnis temporibus sit asperiores rerum.
-                        Qui necessitatibus magnam eum magni consectetur eum accusamus repudiandae. Est totam facere ad doloremque nostrum in autem nostrum qui praesentium ratione. Sit repudiandae voluptate aut necessitatibus eaque eum dolore numquam 33 nostrum nesciunt est consequuntur sint!
-                        Et deserunt eius est laborum deserunt At voluptas minus At architecto reprehenderit. Qui omnis voluptas et earum aspernatur sed fugiat Quis qui voluptatem consequatur.
-                    </p>
-                    <h3>Informações de contato</h3>
-                    <p>Nome do vendedor: </p><br>
-                    <p>Numero de telefone: </p>
+                    <h1>{{ produto.nome }}</h1>
+                    <img src="{{ produto.imagem }}" alt="{{ produto.nome }}">
+                    <p>{{ produto.descricao }}</p>
+                    <p>Tamanho: {{ produto.tamanho }}</p>
+                    <p>Tipo: {{ produto.tipo }}</p>
+                    <p>Preço: R$ {{ "%.2f"|format(produto.preco) }}</p>
+                    <p>Categoria: {{ produto.categoria }}</p>
+                    <p>Contato: {{ produto.Contato }}</p>
                 </div>
             </div>
         </section>
     </main>
 
     <footer>
-         <p class="footer-copy azul-escuro">Copyrigth Quara 2025</p>
+        <p class="footer-copy azul-escuro">Copyrigth Quara 2025</p>
         <p class="footer-autor azul-escuro">Site feito originalmente por: </p>
-        <p class="footer-autor azul-escuro">Andhyrws Gabriel, Gisela Araújo, Jonatas Camilo, Miguel Cristiano e Berdine Nogueira.</p>
+        <p class="footer-autor azul-escuro">Andhyrws Gabriel, Gisela Araújo, Jonatas Camilo, Miguel Cristiano e Berdine
+            Nogueira.</p>
     </footer>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
