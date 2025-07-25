@@ -323,3 +323,60 @@ section.button2{
     color: #fff;
     transition: 0.3s;
 }
+
+ /* Ícone hambúrguer */
+    .menu-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 30px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    /* Menu lateral (off-canvas) */
+    .side-menu {
+      position: fixed;
+      top: 0;
+      right: -250px;
+      width: 250px;
+      height: 100%;
+      background-color: #333;
+      color: white;
+      padding-top: 60px;
+      transition: right 0.3s ease;
+      z-index: 1000;
+    }
+
+    .side-menu a {
+      display: block;
+      padding: 15px 25px;
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      border-bottom: 1px solid #444;
+    }
+
+    .side-menu a:hover {
+      background-color: #444;
+    }
+
+    .side-menu.active {
+      right: 0;
+    }
+
+    /* Sobreposição (fundo escuro ao redor do menu) */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      z-index: 999;
+    }
+
+    .overlay.active {
+      display: block;
+    }

@@ -12,11 +12,19 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="../static/style/navbar.css">
-    <link rel="stylesheet" href="../static/style/procurar.css">
+        <link rel="stylesheet" href="../static/style/procurar.css">
+        <link rel="stylesheet" href="../static/style/navbar.css">
 </head>
 
 <body>
+    <!-- Sobreposição -->
+  <div id="overlay" class="overlay" onclick="closeMenu()"></div>
+
+  <!-- Menu lateral -->
+  <div id="sideMenu" class="side-menu">
+    <a href="{{ url_for('usuario_pg') }}">Meu Perfil</a>
+    <a href="{{ url_for('procurar') }}">Meus Produtos</a>
+  </div>
     <header>
         <nav>
             <span style="color: #b0b0b0;" class="logo">Quara</span>
@@ -26,6 +34,7 @@
                 <li class="li_nav"><a href="{{ url_for('login') }}">Login</a></li>
                 <li class="li_nav"><a>Doações</a></li>
                 <li class="li_nav"><a>Como ajudar?</a></li>
+                <li><div class="menu-btn" onclick="toggleMenu()">☰</div></li>
             </ul>
             <a href="{{ url_for('logout') }}">
                 <button type="button" class="btn btn-danger">Voltar</button>
@@ -34,255 +43,71 @@
     </header>
     <br><br><br><br><br>
 
-    <main>
-        <section class="search"">
-            <div id=" search-container">
-            <div class="input-grupo">
-                <div class="input-icone">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </div>
-                <input type="text" id="search" class="input-field" placeholder="pesquisar">
+<main class="container">
+    <!-- Seção de Pesquisa -->
+    <div id="search-container">
+        <div class="input-grupo">
+            <div class="input-icone">
+                <i class="fa-solid fa-magnifying-glass"></i>
             </div>
-            <a href="{{ url_for('usuario_pg') }}"><button type="button" class="btn btn-danger">Visualizar
-                    perfil</button></a>
-            <a href="{{ url_for('add_produto') }}"><button type="button" class="btn btn-danger">Adicionar
-                    produto</button></a>
-            </div>
+            <input type="text" id="search" class="input-field" placeholder="pesquisar">
+        </div>
+        <a href="{{ url_for('add_produto') }}"><button type="button" class="btn btn-danger">Adicionar produto</button></a>
+    </div>
 
-            <!--Lista de roupas-->
-
-            <div class="items-container">
-                <h2>Recentes</h2>
-                <ul class="items">
-                    {% for produto in produtos %}
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img src="{{ produto.imagem }}" alt="{{ produto.nome }}">
-                            <div class="card-body">
-                                <h5 class="card-title item-titulo">{{ produto.nome }}</h5>
-                                <p class="card-text">{{ produto.descricao[:100] }}...</p>
-                                <a href="{{ url_for('detalhes_produto', produto_id=produto.id) }}"
-                                    class="btn btn-primary">Visitar</a>
-                            </div>
+    <!-- Seção de Recentes -->
+    <div class="items-container">
+        <section class="search">
+            <h2 class="item-titulo">Recentes</h2>
+            <ul class="items" id="recent-items">
+                {% for produto in produtos_recentes %}
+                <li class="item">
+                    <a href="{{ url_for('detalhes_produto', produto_id=produto.id) }}">
+                        <div class="item-image">
+                            <img src="{{ produto.imagem if produto.imagem else url_for('static', filename='images/default-product.png') }}" 
+                                 alt="{{ produto.nome }}"
+                                 onerror="this.src='{{ url_for('static', filename='images/default-product.png') }}'">
                         </div>
-                    </li>
-                    {% endfor %}
-
-                </ul>
-            </div>
-
-            <!--Lista de calças-->
-            <div class="items-container">
-                <h2>Calças</h2>
-                <ul class="items">
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/calca/calca-1.jpg" alt="Imagem de capa do card"
-                                style="width: 100%; height: 350px;">
-                            <div class="card-body">
-                                <h5 class="card-title">Calça Jeans</h5>
-                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer
-                                    preencher o conteúdo do card.</p>
-                                <a href="#" class="btn btn-primary">Visitar</a>
-                            </div>
+                        <div class="item-info">
+                            <h3 class="item-subtitulo">{{ produto.nome }}</h3>
+                            <p class="item-desc">R$ {{ "%.2f"|format(produto.preco) }}</p>
+                            <span class="item-category">{{ produto.categoria }}</span>
                         </div>
-                    </li>
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/img-exemplo2.jpg" alt="Imagem de capa do card"
-                                style="width: 100%; height: 350px;">
-                            <div class="card-body">
-                                <h5 class="card-title">Casaco</h5>
-                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer
-                                    preencher o conteúdo do card.</p>
-                                <a href="#" class="btn btn-primary">Visitar</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/img-exemplo3.jpg" alt="Imagem de capa do card"
-                                style="width: 100%; height: 350px;">
-                            <div class="card-body">
-                                <h5 class="card-title">Blusa feminina</h5>
-                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer
-                                    preencher o conteúdo do card.</p>
-                                <a href="#" class="btn btn-primary">Visitar</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/img-exemplo4.jpg" alt="Imagem de capa do card"
-                                style="width: 100%; height: 350px;">
-                            <div class="card-body">
-                                <h5 class="card-title">Tenis</h5>
-                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer
-                                    preencher o conteúdo do card.</p>
-                                <a href="#" class="btn btn-primary">Visitar</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/img-exp-5.jpg" alt="Imagem de capa do card"
-                                style="width: 100%; height: 350px;">
-                            <div class="card-body">
-                                <h5 class="card-title">Calça boca de sino</h5>
-                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer
-                                    preencher o conteúdo do card.</p>
-                                <a href="#" class="btn btn-primary">Visitar</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/img-exp-6.jpg" alt="Imagem de capa do card"
-                                style="width: 100%; height: 350px;">
-                            <div class="card-body">
-                                <h5 class="card-title">Calça jeans</h5>
-                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer
-                                    preencher o conteúdo do card.</p>
-                                <a href="#" class="btn btn-primary">Visitar</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/img-exp-7.jpg" alt="Imagem de capa do card"
-                                style="width: 100%; height: 350px;">
-                            <div class="card-body">
-                                <h5 class="card-title">Sapato social</h5>
-                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer
-                                    preencher o conteúdo do card.</p>
-                                <a href="#" class="btn btn-primary">Visitar</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/img-exp-8.jpg" alt="Imagem de capa do card"
-                                style="width: 100%; height: 350px;">
-                            <div class="card-body">
-                                <h5 class="card-title">Sapatilha</h5>
-                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer
-                                    preencher o conteúdo do card.</p>
-                                <a href="#" class="btn btn-primary">Visitar</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li id="no_results">
-                        <p>Nenhum resultado encontrado</p>
-                    </li>
-                </ul>
-            </div>
-
-            <!--Lista de tenis-->
-            <div class="items-container">
-                <h2>Tênis</h2>
-                <ul class="items">
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/sapatos/sapato-1.jpg" alt="Imagem de capa do card"
-                                style="width: 100%; height: 350px;">
-                            <div class="card-body">
-                                <h5 class="card-title">Sapato Social</h5>
-                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer
-                                    preencher o conteúdo do card.</p>
-                                <a href="#" class="btn btn-primary">Visitar</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/img-exemplo2.jpg" alt="Imagem de capa do card"
-                                style="width: 100%; height: 350px;">
-                            <div class="card-body">
-                                <h5 class="card-title">Casaco</h5>
-                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer
-                                    preencher o conteúdo do card.</p>
-                                <a href="#" class="btn btn-primary">Visitar</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/img-exemplo3.jpg" alt="Imagem de capa do card"
-                                style="width: 100%; height: 350px;">
-                            <div class="card-body">
-                                <h5 class="card-title">Blusa feminina</h5>
-                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer
-                                    preencher o conteúdo do card.</p>
-                                <a href="#" class="btn btn-primary">Visitar</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/img-exemplo4.jpg" alt="Imagem de capa do card"
-                                style="width: 100%; height: 350px;">
-                            <div class="card-body">
-                                <h5 class="card-title">Tenis</h5>
-                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer
-                                    preencher o conteúdo do card.</p>
-                                <a href="#" class="btn btn-primary">Visitar</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/img-exp-5.jpg" alt="Imagem de capa do card"
-                                style="width: 100%; height: 350px;">
-                            <div class="card-body">
-                                <h5 class="card-title">Calça boca de sino</h5>
-                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer
-                                    preencher o conteúdo do card.</p>
-                                <a href="#" class="btn btn-primary">Visitar</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/img-exp-6.jpg" alt="Imagem de capa do card"
-                                style="width: 100%; height: 350px;">
-                            <div class="card-body">
-                                <h5 class="card-title">Calça jeans</h5>
-                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer
-                                    preencher o conteúdo do card.</p>
-                                <a href="#" class="btn btn-primary">Visitar</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/img-exp-7.jpg" alt="Imagem de capa do card"
-                                style="width: 100%; height: 350px;">
-                            <div class="card-body">
-                                <h5 class="card-title">Sapato social</h5>
-                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer
-                                    preencher o conteúdo do card.</p>
-                                <a href="#" class="btn btn-primary">Visitar</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/sapato-femino-1.jpg" alt="Imagem de capa do card"
-                                style="width: 100%; height: 350px;">
-                            <div class="card-body">
-                                <h5 class="card-title">Sapatilha</h5>
-                                <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer
-                                    preencher o conteúdo do card.</p>
-                                <a href="#" class="btn btn-primary">Visitar</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li id="no_results">
-                        <p>Nenhum resultado encontrado</p>
-                    </li>
-                </ul>
-            </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
         </section>
+    </div>
+
+    <!-- Seção de Categorias -->
+    {% for categoria, produtos in produtos_por_categoria.items() %}
+    <div class="items-container category-section" data-category="{{ categoria }}">
+        <section class="search">
+            <h2 class="item-titulo">{{ categoria }}</h2>
+            <ul class="items">
+                {% for produto in produtos %}
+                <li class="item">
+                    <a href="{{ url_for('detalhes_produto', produto_id=produto.id) }}">
+                        <div class="item-image">
+                            <img src="{{ produto.imagem if produto.imagem else url_for('static', filename='images/default-product.png') }}" 
+                                 alt="{{ produto.nome }}"
+                                 onerror="this.src='{{ url_for('static', filename='images/default-product.png') }}'">
+                        </div>
+                        <div class="item-info">
+                            <h3 class="item-subtitulo">{{ produto.nome }}</h3>
+                            <p class="item-desc">R$ {{ "%.2f"|format(produto.preco) }}</p>
+                            <span class="item-category">{{ produto.categoria }}</span>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+    {% endfor %}
+    </section>
+
     </main>
     <footer>
         <p class="footer-copy azul-escuro">Copyrigth Quara 2025</p>
@@ -302,6 +127,7 @@
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
     <script src="../static/javascript/procurar.js"></script>
+    <script src="../static/javascript/menu.js"></script>
 </body>
 
 </html>

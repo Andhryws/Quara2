@@ -1,33 +1,17 @@
-const searchInput = document.getElementById('search');
-searchInput.addEventListener('input', (event) => {
-    const value = event.target.value;
-
-    const items = document.querySelectorAll('.items .item');
-    const noResults = document.getElementById('no_results');
-
-    let hasResults = false;
-
-    items.forEach(item => {
-        const itemTitle = item.querySelector('.item-titulo').textContent;
-
-        if(formatString(itemTitle).indexOf(value) !== -1){
-            item.style.display = 'flex';
-            item.style.flexDirection = 'column';
-            hasResults = true;
-        }else{
-            item.style.display = 'none';
-        }
-    })
-    if(hasResults){
-        noResults.style.display = 'none';
-    }else {
-        noResults.style.display = 'block';
-    }
+document.getElementById('search').addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const allItems = document.querySelectorAll('.items-container .item');
+    
+    allItems.forEach(item => {
+        const name = item.querySelector('.item-subtitulo').textContent.toLowerCase();
+        const category = item.querySelector('.item-category').textContent.toLowerCase();
+        const matchesSearch = name.includes(searchTerm) || category.includes(searchTerm);
+        
+        item.style.display = matchesSearch ? 'flex' : 'none';
+        
+        // Oculta seções vazias
+        const section = item.closest('section');
+        const visibleItems = section.querySelectorAll('.item[style*="flex"]').length;
+        section.style.display = visibleItems > 0 ? 'block' : 'none';
+    });
 });
-
-function formatString(value){
-    return value.toLowerCase()
-    .trim()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '');
-}

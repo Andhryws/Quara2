@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Produto - Quara</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/mod_produto.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Editar Produto: {{ produto.nome }}</h1>
+
+            <form method="POST" action="{{ url_for('editar_produto', produto_id=produto.id) }}">
+                <!-- Campos do produto -->
+                <div class="form-group">
+                    <label for="nome">Nome do Produto:</label>
+                    <input type="text" class="form-control" name="nome" value="{{ produto.nome }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao">Descrição:</label>
+                    <textarea class="form-control" name="descricao" required>{{ produto.descricao }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="tamanho">Tamanho:</label>
+                    <select class="form-control" name="tamanho" required>
+                        <option value="P" {% if produto.tamanho == 'P' %}selected{% endif %}>P</option>
+                        <option value="M" {% if produto.tamanho == 'M' %}selected{% endif %}>M</option>
+                        <option value="G" {% if produto.tamanho == 'G' %}selected{% endif %}>G</option>
+                        <option value="GG" {% if produto.tamanho == 'GG' %}selected{% endif %}>GG</option>
+                        <option value="Único" {% if produto.tamanho == 'Único' %}selected{% endif %}>Único</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo">Tipo:</label>
+                    <input type="text" class="form-control" name="tipo" value="{{ produto.tipo }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="preco">Preço (R$):</label>
+                    <input type="number" step="0.01" class="form-control" name="preco" value="{{ produto.preco }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="categoria">Categoria:</label>
+                    <select class="form-control" name="categoria" required>
+                        <option value="Roupas" {% if produto.categoria == 'Roupas' %}selected{% endif %}>Roupas</option>
+                        <option value="Calçados" {% if produto.categoria == 'Calçados' %}selected{% endif %}>Calçados</option>
+                        <option value="Acessórios" {% if produto.categoria == 'Acessórios' %}selected{% endif %}>Acessórios</option>
+                        <option value="Eletrônicos" {% if produto.categoria == 'Eletrônicos' %}selected{% endif %}>Eletrônicos</option>
+                        <option value="Livros" {% if produto.categoria == 'Livros' %}selected{% endif %}>Livros</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="contato">Contato:</label>
+                    <input type="text" class="form-control" name="contato" value="{{ produto.Contato }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="imagem">URL da Imagem:</label>
+                    <input type="url" class="form-control" name="imagem" value="{{ produto.imagem }}" 
+                        placeholder="https://exemplo.com/imagem.jpg">
+                    {% if produto.imagem %}
+                        <small class="form-text text-muted">
+                            <a href="{{ produto.imagem }}" target="_blank">Visualizar imagem atual</a>
+                        </small>
+                    {% endif %}
+                </div>
+
+                <div class="form-actions mt-4">
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                    <a href="{{ url_for('detalhes_produto', produto_id=produto.id) }}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+
+        <hr class="my-4">
+
+        <form id="deletar-form" action="{{ url_for('excluir_produto', produto_id=produto.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este produto permanentemente?');">
+            <button type="submit" class="btn btn-danger">Excluir Produto</button>
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    
+    <script>
+        // Mostrar nome do arquivo selecionado
+        document.querySelector('.custom-file-input').addEventListener('change', function(e) {
+            var fileName = document.getElementById("imagem").files[0].name;
+            var nextSibling = e.target.nextElementSibling;
+            nextSibling.innerText = fileName;
+        });
+    </script>
+</body>
+</html>

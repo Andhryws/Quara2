@@ -9,8 +9,18 @@
     <link rel="stylesheet" href="../static/style/style.css">
     <link rel="stylesheet" href="../static/style/navbar.css">
 
+    </head>
 </head>
 <body>
+    
+  <!-- Sobreposição -->
+  <div id="overlay" class="overlay" onclick="closeMenu()"></div>
+
+  <!-- Menu lateral -->
+  <div id="sideMenu" class="side-menu">
+    <a href="{{ url_for('usuario_pg') }}">Meu Perfil</a>
+    <a href="{{ url_for('procurar') }}">Meus Produtos</a>
+  </div>
     <header>
         <nav>
         <span style="color: #b0b0b0;" class="logo">Quara</span>
@@ -20,6 +30,7 @@
             <li class="li_nav"><a href="{{ url_for('login') }}">Login</a></li>
             <li class="li_nav"><a>Doações</a></li>
             <li class="li_nav"><a>Como ajudar?</a></li>
+            <li><div class="menu-btn" onclick="toggleMenu()">☰</div></li>
         </ul>
         </nav>
     </header>
@@ -113,48 +124,21 @@
 
         <section class="section2">
             <div class="container_section2">
+                {% for produto in produtos_recentes[:4] %}  <!-- Garantindo apenas 4 itens -->
                 <div class="container_item">
                     <div class="item">
-                        <img src="../images/img-exemplo1.jpg" alt="">
+                        <img src="{{ produto.imagem if produto.imagem else url_for('static', filename='images/default-product.png') }}" 
+                            alt="{{ produto.nome }}"
+                            onerror="this.src='{{ url_for('static', filename='images/default-product.png') }}'">
                         <div class="info-item">
-                            <p>Calça Flare</p>
-                            <br>
-                            <p class="indereco">R. das Rosas - Piedade - Jaboatão dos Guararapes - PE</p>
+                            <p class="nome-produto">{{ produto.nome }}</p>
+                            <p class="endereco">{{ produto.Contato }}</p>
+                            <p class="preco">R$ {{ "%.2f"|format(produto.preco) }}</p>
                         </div>
                     </div>
                 </div>
-                <div class="container_item">
-                    <div class="item">
-                        <img src="../images/img-exemplo2.jpg" alt="">
-                        <div class="info-item">
-                            <p >Casaco Feminino</p>
-                            <br>
-                            <p class="indereco">Rua Abrigo Central - Cavaleiro - Jaboatão dos Guararapes - PE</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="container_item">
-                    <div class="item">
-                        <img src="../images/img-exemplo3.jpg" alt="">
-                        <div class="info-item">
-                            <p>Blusa de alça Rosa</p>
-                            <br>
-                            <p class="indereco">1ª Travessa Fernades Vieira - Marcos Freire - Jaboatão dos Guararapes - PE</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="container_item">
-                    <div class="item">
-                        <img src="../images/img-exemplo4.jpg" alt="">
-                        <div class="info-item">
-                            <p>Sapato all star usado</p>
-                            <br>
-                            <p class="indereco">02, Rua - Vila Rica - Jaboatão dos Guararapes - PE</p>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
-
         </section>
         <section class="button">
 
@@ -194,5 +178,6 @@
         <p class="footer-autor azul-escuro">Andhyrws Gabriel, Gisela Araújo, Jonatas Camilo, Miguel Cristiano e Berdine Nogueira.</p>
     </footer>
     <script src="../static/javascript/scroll.js"></script>
+    <script src="../static/javascript/menu.js"></script>
 </body>
 </html>

@@ -1,14 +1,21 @@
-from flask import Flask, render_template, request, redirect, session, url_for, flash
+from flask import Flask, render_template, request, redirect, session, url_for, flash, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
+import os
 
 app = Flask(__name__)
+# Adicione após criar a app Flask
+app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')  # Pasta para uploads dentro de static
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.secret_key = '9f1c2d4a8eab3e7b6f9c1d2e3a4b5c6d'  # ESSENCIAL para sessões
 db = SQLAlchemy(app)
 
+# Configurações de upload (adicione no início do arquivo)
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
@@ -16,6 +23,7 @@ class Usuario(db.Model):
     nascimento = db.Column(db.Date, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     senha = db.Column(db.String(60), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)  # Adicione este campo
 
 class Produto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,11 +39,21 @@ class Produto(db.Model):
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
     usuario = db.relationship('Usuario', backref=db.backref('produtos', lazy=True))
 
+
 # Página inicial
 @app.route("/")
 def index():
+    # Obter usuários (mantenha o que já tinha)
     usuarios = Usuario.query.all()
-    return render_template("index.html", usuarios=usuarios)
+    
+    # Adicionar os produtos recentes
+    produtos_recentes = Produto.query.order_by(Produto.id.desc()).limit(4).all()
+    
+    return render_template(
+        "index.html",
+        usuarios=usuarios,
+        produtos_recentes=produtos_recentes  # Passando para o template
+    )
 
 # Página de cadastro
 @app.route("/formulario")
@@ -55,6 +73,7 @@ def usuario_pg():
 
     return render_template('usuario.html', usuario=usuario)
 
+# Rota para adicionar produto
 @app.route('/add_produto')
 def add_produto():
     if 'usuario_id' not in session:
@@ -90,13 +109,32 @@ def login():
 @app.route('/produto/<int:produto_id>')
 def detalhes_produto(produto_id):
     produto = Produto.query.get_or_404(produto_id)
-    return render_template('produto.html', produto=produto)
+    usuario = None
+    if 'usuario_id' in session:
+        usuario = Usuario.query.get(session['usuario_id'])
+    return render_template('produto.html', produto=produto, usuario=usuario)
 
 # Página de busca
 @app.route('/procurar')
 def procurar():
-    produtos = Produto.query.all()
-    return render_template('procurar.html', produtos=produtos)
+    # Produtos recentes (últimos 6 adicionados)
+    produtos_recentes = Produto.query.order_by(Produto.id.desc()).limit(6).all()
+    
+    # Todas as categorias existentes (dinâmico)
+    categorias = db.session.query(Produto.categoria.distinct()).all()
+    categorias = [categoria[0] for categoria in categorias if categoria[0]]  # Extrai os valores
+    
+    produtos_por_categoria = {}
+    for categoria in categorias:
+        produtos = Produto.query.filter_by(categoria=categoria).all()
+        if produtos:  # Só adiciona se tiver produtos
+            produtos_por_categoria[categoria] = produtos
+    
+    return render_template(
+        'procurar.html',
+        produtos_recentes=produtos_recentes,
+        produtos_por_categoria=produtos_por_categoria
+    )
 
 # Cadastro de usuário (POST)
 @app.route("/create", methods=['POST'])
@@ -183,6 +221,57 @@ def create_produto():
     db.session.commit()
 
     return redirect(url_for('procurar'))
+
+@app.route('/produto/<int:produto_id>/editar', methods=['GET', 'POST'])
+def editar_produto(produto_id):
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
+    
+    produto = Produto.query.get_or_404(produto_id)
+    usuario = Usuario.query.get(session['usuario_id'])
+    
+    if produto.usuario_id != usuario.id and not usuario.is_admin:
+        return "Acesso não autorizado", 403
+    
+    if request.method == 'POST':
+        # Atualiza todos os campos diretamente do formulário
+        produto.nome = request.form['nome']
+        produto.descricao = request.form['descricao']
+        produto.tamanho = request.form['tamanho']
+        produto.tipo = request.form['tipo']
+        produto.preco = float(request.form['preco'])
+        produto.categoria = request.form['categoria']
+        produto.Contato = request.form['contato']
+        produto.imagem = request.form['imagem']  # Armazena apenas a URL
+        
+        db.session.commit()
+        return redirect(url_for('detalhes_produto', produto_id=produto.id))
+    
+    return render_template('mod_produto.html', produto=produto)
+
+
+# Adicione esta rota para excluir produtos
+@app.route('/produto/<int:produto_id>/excluir', methods=['POST'])
+def excluir_produto(produto_id):
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
+    
+    produto = Produto.query.get_or_404(produto_id)
+    usuario = Usuario.query.get(session['usuario_id'])
+    
+    # Verifica se é o dono ou admin
+    if produto.usuario_id != usuario.id and not usuario.is_admin:
+        return "Acesso não autorizado", 403
+    
+    db.session.delete(produto)
+    db.session.commit()
+    return redirect(url_for('procurar'))
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+    
 
 if __name__ == "__main__":
     with app.app_context():

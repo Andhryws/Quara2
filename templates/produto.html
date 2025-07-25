@@ -1,71 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
+     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="../static/style/produto.css">
-    <link rel="stylesheet" href="../static/style/style.css">
-    <link rel="stylesheet" href="../static/style/navbar.css">
-    <title>Document</title>
+    <title>{{ produto.nome }} - Quara</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/produto.css') }}">
 </head>
-
 <body>
     <header>
         <nav>
-            <span style="color: #b0b0b0;" class="logo">Quara</span>
-            <ul class="ul_nav">
-                <li class="li_nav"><a>Sobre nós</a></li>
-                <li class="li_nav"><a href="{{ url_for('formulario') }}">Cadastro</a></li>
-                <li class="li_nav"><a href="{{ url_for('login') }}">Login</a></li>
-                <li class="li_nav"><a>Doações</a></li>
-                <li class="li_nav"><a>Como ajudar?</a></li>
-            </ul>
-            <a href="{{ url_for('procurar') }}"><button type="button" class="btn btn-danger">Voltar</button></a>
+        <span style="color: #b0b0b0;" class="logo">Quara</span>
+        <ul class="ul_nav">
+            <li class="li_nav"><a>Sobre nós</a></li>
+            <li class="li_nav" ><a href="{{ url_for('formulario') }}">Cadastro</a></li>
+            <li class="li_nav"><a href="{{ url_for('login') }}">Login</a></li>
+            <li class="li_nav"><a>Doações</a></li>
+            <li class="li_nav"><a>Como ajudar?</a></li>
+            <li><div class="menu-btn" onclick="toggleMenu()">☰</div></li>
+            <a href="{{ url_for('procurar') }}">
+                <button type="button" class="btn btn-danger">Voltar</button>
+            </a>
+        </ul>
         </nav>
     </header>
 
     <main>
         <section class="produto">
-            <div class="container">
-                <div class="imagem">
-                    <img src="../static/images/img-exemplo1.jpg" alt="Imagem de calça jeans">
+        <div class="card product-card">
+            <div class="row no-gutters">
+                <div class="col-md-6">
+                    
+                    <div class="product-image-container">
+                        {% if produto.imagem and produto.imagem.startswith(('http://', 'https://')) %}
+                            <img src="{{ produto.imagem }}" class="card-img" alt="{{ produto.nome }}">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='images/default-product.png') }}" class="card-img" alt="{{ produto.nome }}">
+                        {% endif %}
+                    </div>
+
                 </div>
-                <div class="descricao">
-                    <h1>{{ produto.nome }}</h1>
-                    <img src="{{ produto.imagem }}" alt="{{ produto.nome }}">
-                    <p>{{ produto.descricao }}</p>
-                    <p>Tamanho: {{ produto.tamanho }}</p>
-                    <p>Tipo: {{ produto.tipo }}</p>
-                    <p>Preço: R$ {{ "%.2f"|format(produto.preco) }}</p>
-                    <p>Categoria: {{ produto.categoria }}</p>
-                    <p>Contato: {{ produto.Contato }}</p>
+                <div class="col-md-6">
+                    <div class="card-body product-details">
+                         <h1 class="card-title">{{ produto.nome }}</h1>
+                        <p class="card-text text-muted">{{ produto.categoria }}</p>
+                        
+                        <div class="product-price mb-4">
+                            <span class="price">R$ {{ "%.2f"|format(produto.preco) }}</span>
+                        </div>
+
+                        <div class="product-info mb-4">
+                            <h5><i class="fas fa-info-circle"></i> Descrição</h5>
+                            <p>{{ produto.descricao }}</p>
+                        </div>
+
+                        <div class="product-specs">
+                            <div class="spec-item">
+                                <h5><i class="fas fa-ruler"></i> Tamanho</h5>
+                                <span>{{ produto.tamanho }}</span>
+                            </div>
+                            <div class="spec-item">
+                                <h5><i class="fas fa-tag"></i> Tipo</h5>
+                                <span>{{ produto.tipo }}</span>
+                            </div>
+                            <div class="spec-item">
+                                <h5><i class="fas fa-phone"></i> Contato</h5>
+                                <span>{{ produto.Contato }}</span>
+                            </div>
+                        </div>
+                        
+                        {% if usuario and (produto.usuario_id == usuario.id or usuario.is_admin) %}
+                            <div class="product-actions mt-4">
+                                <a href="{{ url_for('editar_produto', produto_id=produto.id) }}" class="btn btn-primary mr-2">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                                <form action="{{ url_for('excluir_produto', produto_id=produto.id) }}" method="POST" class="d-inline">
+                                    <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Tem certeza que deseja excluir este produto?')">
+                                        <i class="fas fa-trash"></i> Excluir
+                                    </button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
+        </div>
         </section>
     </main>
 
     <footer>
         <p class="footer-copy azul-escuro">Copyrigth Quara 2025</p>
         <p class="footer-autor azul-escuro">Site feito originalmente por: </p>
-        <p class="footer-autor azul-escuro">Andhyrws Gabriel, Gisela Araújo, Jonatas Camilo, Miguel Cristiano e Berdine
-            Nogueira.</p>
+        <p class="footer-autor azul-escuro">Andhyrws Gabriel, Gisela Araújo, Jonatas Camilo, Miguel Cristiano e Berdine Nogueira.</p>
     </footer>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
 </body>
-
 </html>

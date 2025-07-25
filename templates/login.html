@@ -48,16 +48,8 @@
                 <i class="fa-solid fa-check"></i>
                 Entrar
             </button>
+            <a href="{{ url_for('formulario') }}">Não tem uma conta? Cadastre-se</a>
         </form>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for msg in messages %}
-        <li>{{ msg }}</li>
-             {% endfor %}
-        </ul>
-          {% endif %}
-        {% endwith %}
     </main>
     <script src="../static/javascript/login.js"></script>
 </body>
